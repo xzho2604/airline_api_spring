@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -13,6 +14,7 @@ import static org.springframework.data.elasticsearch.annotations.FieldType.*;
 @Data
 public class PassengerRecord {
     @Id
+    @JsonProperty("_id")
     private String id;
 
     @Field(type = Text)

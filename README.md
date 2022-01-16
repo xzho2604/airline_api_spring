@@ -1,6 +1,15 @@
 # airline_api_spring
 airline REST API
 
+
+## Prerequisite Dependencies
+* install elasticsearch docker image and run locally
+```shell
+docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.2
+```
+
+
+
 # TODO
 * swagger
 * API Endpoint

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 
@@ -24,10 +25,11 @@ public class Airline {
     private String slogan;
 
     @Field(type = Text)
+    @JsonProperty("head_quaters")
     private String headQuarters;
 
     @Field(type = Text)
-    private String webSite;
+    private String website;
 
     @Field(type = Text)
     private String established;
