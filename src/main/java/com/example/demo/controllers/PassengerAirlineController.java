@@ -2,8 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.PassengerRecord;
 import com.example.demo.repository.AviationRepository;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -16,21 +14,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 public class PassengerAirlineController {
 
-    private final RestHighLevelClient client;
     private final ElasticsearchOperations elasticsearchTemplate;
     private final AviationRepository aviationRepository;
 
-    public PassengerAirlineController(RestHighLevelClient client, ElasticsearchOperations elasticsearchTemplate, AviationRepository aviationRepository) {
-        this.client = client;
+    public PassengerAirlineController(ElasticsearchOperations elasticsearchTemplate,
+                                      AviationRepository aviationRepository) {
         this.elasticsearchTemplate = elasticsearchTemplate;
         this.aviationRepository = aviationRepository;
     }
@@ -42,16 +37,17 @@ public class PassengerAirlineController {
         return resultPage.get().collect(Collectors.toList());
     }
 
-    @GetMapping("trips/greater/{number}")
-    public List<PassengerRecord> getTripGreaterThan(@PathVariable Integer number) {
-        var resultPage = aviationRepository.findByTripsGreaterThan(number, Pageable.ofSize(10));
+    @GetMapping("trips/greater/{number}/{size}")
+    public List<PassengerRecord> getTripGreaterThan(@PathVariable Integer number,
+                                                    @PathVariable Integer size) {
+        var resultPage = aviationRepository.findByTripsGreaterThan(number, Pageable.ofSize(size));
 
         return resultPage.get().collect(Collectors.toList());
     }
 
     @GetMapping("filter")
     public List<PassengerRecord> getPassengerByQuery(
-            @RequestParam Optional<String> passengerId,
+            @RequestParam Optional<Integer> size,
             @RequestParam Optional<String> passengerName,
             @RequestParam Optional<Long> trips,
             @RequestParam Optional<Long> airlineId,
@@ -61,13 +57,15 @@ public class PassengerAirlineController {
 
         Criteria criteria = new Criteria();
 
-        if (passengerName.isPresent()) criteria = criteria.and("name").is(passengerName);
+        if (passengerName.isPresent()) criteria = criteria.and("name").is(passengerName.get());
         if (trips.isPresent()) criteria = criteria.and("trips").is(trips.get());
         if (airlineId.isPresent()) criteria = criteria.and("airline.id").is(airlineId.get());
         if (airlineName.isPresent()) criteria = criteria.and("airline.name").is(airlineName.get());
         if (airlineLogo.isPresent()) criteria = criteria.and("airline.logo").is(airlineLogo.get());
 
         Query query = new CriteriaQuery(criteria);
+
+        size.ifPresent(integer -> query.setPageable(Pageable.ofSize(integer)));
 
         SearchHits<PassengerRecord> searchHits = elasticsearchTemplate.search(query, PassengerRecord.class);
 
