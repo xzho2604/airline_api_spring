@@ -20,8 +20,8 @@ public class PassengerRecord {
     @Field(type = Text)
     private String name;
 
-    @Field(type = Integer)
-    private int trips;
+    @Field(type = Long)
+    private Long trips;
 
     @Field(type = Nested, includeInParent = true)
     List<Airline> airline;

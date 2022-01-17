@@ -3,14 +3,15 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
-import static org.springframework.data.elasticsearch.annotations.FieldType.Integer;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Long;
 
 @Data
 public class Airline {
-    @Field(type = Integer)
-    private int id;
+    @Field(type = Long)
+    private Long id;
 
     @Field(type = Text)
     private String name;

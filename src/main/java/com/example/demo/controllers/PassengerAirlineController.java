@@ -53,8 +53,8 @@ public class PassengerAirlineController {
     public List<PassengerRecord> getPassengerByQuery(
             @RequestParam Optional<String> passengerId,
             @RequestParam Optional<String> passengerName,
-            @RequestParam Optional<Integer> trips,
-            @RequestParam Optional<String> airlineId,
+            @RequestParam Optional<Long> trips,
+            @RequestParam Optional<Long> airlineId,
             @RequestParam Optional<String> airlineName,
             @RequestParam Optional<String> airlineLogo
     ) {

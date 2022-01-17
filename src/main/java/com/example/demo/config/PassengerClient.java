@@ -14,5 +14,5 @@ import java.util.List;
 public interface PassengerClient {
 
     @GetMapping("/passenger")
-    DataDto getPassengerData(@RequestParam int page, @RequestParam int size);
+    DataDto getPassengerData(@RequestParam Integer page, @RequestParam Integer size);
 }
