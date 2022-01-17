@@ -58,7 +58,6 @@ public class PassengerIngestion implements ApplicationRunner {
                     .thenAccept(this::bulkIndex);
 
             jobs.add(job);
-//            break; //TODO: remove
         }
 
         // block until all records saved
