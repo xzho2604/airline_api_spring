@@ -58,6 +58,12 @@ mvn spring-boot:run
 * Also since to fetch the data from an external API is IO bounded, we use async task(CompletableFuture) to concurrently
   fetching different pages, to speed up the ingestion process
 
+### Getting data from the external API
+
+* Open feign provides convenient way to fetch http request to an external API endpoint as if it is a function call, very
+  much like a remote procedure call, which abstract all the complexity of the low level details of handling http
+  requests.
+
 ### Addressing Changing API
 
 * As we have made the assumption that the data returned by the external API would not change, we could have done one
