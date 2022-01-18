@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,8 +40,9 @@ public class PassengerAirlineController {
     }
 
     @GetMapping("trips/greater/{number}/{size}")
-    public List<PassengerRecord> getTripGreaterThan(@PathVariable Integer number,
-                                                    @PathVariable Integer size) {
+    public List<PassengerRecord> getTripGreaterThan(
+            @PathVariable @Min(value = 0, message = "The value must be positive") Integer number,
+            @PathVariable @Min(value = 1, message = "The value must be at least one") Integer size) {
         var resultPage = aviationRepository.findByTripsGreaterThan(number, Pageable.ofSize(size));
 
         return resultPage.get().collect(Collectors.toList());
@@ -47,9 +50,9 @@ public class PassengerAirlineController {
 
     @GetMapping("filter")
     public List<PassengerRecord> getPassengerByQuery(
-            @RequestParam Optional<Integer> size,
+            @RequestParam @Min(value = 1, message = "The value must be at least one") Optional<Integer> size,
             @RequestParam Optional<String> passengerName,
-            @RequestParam Optional<Long> trips,
+            @RequestParam @Min(value = 0, message = "The value must be positive") Optional<Long> trips,
             @RequestParam Optional<Long> airlineId,
             @RequestParam Optional<String> airlineName,
             @RequestParam Optional<String> airlineLogo
