@@ -8,7 +8,9 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import javax.persistence.Id;
 import java.util.List;
 
-import static org.springframework.data.elasticsearch.annotations.FieldType.*;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Long;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Nested;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 
 @Document(indexName = "aviation")
 @Data
