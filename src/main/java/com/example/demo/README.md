@@ -101,8 +101,6 @@ mvn spring-boot:run
 * Due to time limitation there are not much security in place in the application. If this application is used as an
   internal API then we could configure the machine to machine authentication. If this faced the user directly we could
   restrict the user access using authentication framework like Oauth2
-* Error handling is very general, could have some custom exception defined for different case to distinguish from
-  general system error. Things like circuit breaker, API rate limiting, retrievable configuration could also be added
 * Observability for logging and monitoring could be more sophisticated, like tracing , tracking slow query, or set up
   metric to log the percentage of failed requests.
 
